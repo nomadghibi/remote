@@ -1,0 +1,245 @@
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import { FaHdd, FaServer, FaDatabase, FaCloud, FaShieldAlt, FaFileAlt, FaUsb, FaExternalLinkAlt, FaHeadset, FaMapMarkerAlt, FaClipboardList } from 'react-icons/fa';
+import emailjs from 'emailjs-com';
+import { emailPublicKey, emailServiceId, emailTemplateId } from '../../utils/emailjsConfig';
+import heroImage from '../../assets/optimized-hero/businessdatarecovery-1152.jpg';
+
+const BusinessDataRecovery = () => {
+  const pageImage = heroImage?.startsWith('http') ? heroImage : 'https://24x7techoncall.com' + (heroImage || '');
+  const [formData, setFormData] = useState({ name: '', phone: '', email: '', serviceType: '', serviceDeliveryMethod: '', problem: '' });
+  const [selectedService, setSelectedService] = useState(null);
+
+  const services = [
+    { id: 'hard-drive-recovery', title: 'Hard Drive Recovery', description: 'Recovering data from damaged or corrupted hard drives.', details: 'Our Hard Drive Recovery service recovers data from damaged or corrupted hard drives using advanced techniques.', icon: FaHdd },
+    { id: 'raid-recovery', title: 'RAID Recovery', description: 'Specialized recovery services for RAID systems.', details: 'Our RAID Recovery service provides specialized recovery solutions for RAID systems, ensuring minimal data loss.', icon: FaServer },
+    { id: 'ssd-recovery', title: 'SSD Recovery', description: 'Retrieving data from solid-state drives.', details: 'Our SSD Recovery service retrieves data from solid-state drives, addressing issues unique to SSDs.', icon: FaDatabase },
+    { id: 'database-recovery', title: 'Database Recovery', description: 'Recovering data from various database systems.', details: 'Our Database Recovery service restores data from various database systems, ensuring data integrity and availability.', icon: FaCloud },
+    { id: 'server-recovery', title: 'Server Recovery', description: 'Restoring data from server systems.', details: 'Our Server Recovery service restores data from server systems, ensuring business continuity.', icon: FaShieldAlt },
+    { id: 'cloud-data-recovery', title: 'Cloud Data Recovery', description: 'Retrieving data from cloud storage solutions.', details: 'Our Cloud Data Recovery service retrieves data from cloud storage solutions, ensuring access to critical information.', icon: FaCloud },
+    { id: 'file-recovery', title: 'File Recovery', description: 'Recovering deleted or lost files from various storage devices.', details: 'Our File Recovery service specializes in recovering deleted or lost files from various storage devices, ensuring data retrieval.', icon: FaFileAlt },
+    { id: 'usb-drive-recovery', title: 'USB Drive Recovery', description: 'Retrieving data from malfunctioning or corrupted USB drives.', details: 'Our USB Drive Recovery service retrieves data from malfunctioning or corrupted USB drives, ensuring data accessibility.', icon: FaUsb },
+    { id: 'external-hard-drive-recovery', title: 'External Hard Drive Recovery', description: 'Recovering data from external hard drives that have been damaged or corrupted.', details: 'Our External Hard Drive Recovery service recovers data from external hard drives using advanced techniques and tools.', icon: FaExternalLinkAlt }
+  ];
+
+  const handleServiceClick = (service) => {
+    setSelectedService(service.id === selectedService?.id ? null : service);
+  };
+
+  const handleOutsideClick = (e) => {
+    if (!e.target.closest('.service-card')) setSelectedService(null);
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', handleOutsideClick);
+    return () => document.removeEventListener('click', handleOutsideClick);
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    emailjs.send(emailServiceId, emailTemplateId, e.target, emailPublicKey)
+      .then((response) => {
+        console.log('SUCCESS!', response.status, response.text);
+        alert('Thanks! Your request has been received. We will contact you within 1 business day.');
+      }, (error) => {
+        console.log('FAILED...', error);
+        alert('We could not send your request right now. Please try again, or call (321) 953-5199.');
+      });
+    setFormData({ name: '', phone: '', email: '', serviceType: '', serviceDeliveryMethod: '', problem: '' });
+  };
+
+  const inputClass = "w-full px-4 py-2.5 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent bg-white";
+  const labelClass = "block text-sm font-semibold text-gray-700 mb-1";
+
+  return (
+    <div>
+      <Helmet>
+        <title>Business Data Recovery Services | 24/7 Tech On Call | Nationwide</title>
+        <meta name="description" content="Recover your business data with expert data recovery services from 24/7 Tech On Call. We offer hard drive recovery, RAID recovery, cloud data recovery, and more." />
+        <meta name="keywords" content="data recovery, business data recovery, hard drive recovery, RAID recovery, SSD recovery, database recovery, cloud data recovery" />
+        <link rel="canonical" href="https://24x7techoncall.com/business-solutions/data-recovery" />
+        <meta name="robots" content="index, follow" />
+        <meta property="og:title" content="Business Data Recovery Services | 24/7 Tech On Call" />
+        <meta property="og:description" content="Recover your business data with expert data recovery services from 24/7 Tech On Call." />
+        <meta property="og:url" content="https://24x7techoncall.com/business-solutions/data-recovery" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content={pageImage} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Business Data Recovery Services | 24/7 Tech On Call" />
+        <meta name="twitter:description" content="Expert business data recovery services in Nationwide." />
+        <meta name="twitter:image" content={pageImage} />
+      </Helmet>
+
+      {/* Hero */}
+      <section
+        className="relative min-h-[380px] flex items-end text-white"
+        style={{ backgroundImage: `url(${heroImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-t from-gray-950/95 via-gray-950/60 to-transparent"></div>
+        <div className="relative z-10 container mx-auto px-6 py-12 max-w-6xl">
+          <nav className="flex items-center gap-2 text-sm text-cyan-300 mb-3">
+            <Link to="/" className="hover:text-white transition-colors">Home</Link>
+            <span className="text-gray-500">/</span>
+            <Link to="/business-solutions" className="hover:text-white transition-colors">Business Solutions</Link>
+            <span className="text-gray-500">/</span>
+            <span className="text-gray-300">Business Data Recovery</span>
+          </nav>
+          <h1 className="text-3xl md:text-5xl font-bold leading-tight">Business Data Recovery</h1>
+          <p className="mt-3 text-cyan-100 text-lg max-w-2xl">Recover lost or corrupted business data quickly and securely with our expert recovery services.</p>
+        </div>
+      </section>
+
+      {/* Intro */}
+      <section className="bg-white py-12">
+        <div className="container mx-auto px-6 max-w-6xl">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4 border-l-4 border-cyan-500 pl-4">Expert Business Data Recovery Services</h2>
+          <p className="text-gray-600 text-lg max-w-3xl">
+            For over 20 years, 24/7 Tech On Call has been a trusted provider of comprehensive data recovery services nationwide, the USA, and across the U.S. Our certified technicians use cutting-edge techniques to efficiently and securely recover lost or corrupted data, ensuring your business experiences minimal downtime.
+          </p>
+        </div>
+      </section>
+
+      {/* Services Grid */}
+      <section className="bg-gray-50 py-12">
+        <div className="container mx-auto px-6 max-w-6xl">
+          <p className="text-sm font-semibold text-cyan-500 uppercase tracking-wider mb-6">Click any service to learn more</p>
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {services.map((service) => (
+              <div
+                key={service.id}
+                className="bg-white rounded-xl shadow-sm border border-gray-100 cursor-pointer hover:shadow-md hover:border-cyan-200 transition-all service-card overflow-hidden"
+                onClick={() => handleServiceClick(service)}
+              >
+                <div className="p-6">
+                  <div className="w-11 h-11 bg-cyan-50 rounded-lg flex items-center justify-center mb-4">
+                    <service.icon className="text-xl text-cyan-500" />
+                  </div>
+                  <h3 className="text-base font-semibold text-gray-900 mb-1">{service.title}</h3>
+                  <p className="text-gray-500 text-sm">{service.description}</p>
+                </div>
+                {selectedService?.id === service.id && (
+                  <div className="px-6 pb-6 pt-3 border-t border-cyan-100 bg-cyan-50">
+                    <p className="text-gray-700 text-sm leading-relaxed">{service.details}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing + Form */}
+      <section className="py-14 bg-white">
+        <div className="container mx-auto px-6 max-w-6xl">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
+            <div className="bg-gray-900 rounded-2xl p-8 text-white flex flex-col justify-center">
+              <p className="text-cyan-400 text-sm font-semibold uppercase tracking-wider mb-2">Affordable Pricing</p>
+              <p className="text-6xl font-bold mb-1">$95</p>
+              <p className="text-gray-400 text-lg mb-4">Starting price</p>
+              <p className="text-gray-400 mb-8">Our Data Recovery Services are designed to offer you the best support at affordable prices. Contact us today to learn more about our pricing and packages.</p>
+              <Link to="/contact" state={{ prefill: { source: 'business-contact' } }} className="inline-block bg-cyan-500 text-gray-900 font-bold px-6 py-3 rounded-full hover:bg-cyan-400 transition-colors text-center shadow-lg">
+                Get a Free Quote
+              </Link>
+            </div>
+
+            <div className="bg-gray-50 rounded-2xl p-8 border border-gray-100">
+              <h3 className="text-xl font-bold text-gray-900 mb-6">Tell Us About Your Data Recovery Needs</h3>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className={labelClass}>Name</label>
+                  <input type="text" name="name" value={formData.name} onChange={handleChange} className={inputClass} required />
+                </div>
+                <div>
+                  <label className={labelClass}>Phone No.</label>
+                  <input type="text" name="phone" value={formData.phone} onChange={handleChange} className={inputClass} required />
+                </div>
+                <div>
+                  <label className={labelClass}>Email</label>
+                  <input type="email" name="email" value={formData.email} onChange={handleChange} className={inputClass} required />
+                </div>
+                <div>
+                  <label className={labelClass}>Type of Service</label>
+                  <select name="serviceType" value={formData.serviceType} onChange={handleChange} className={inputClass} required>
+                    <option value="" disabled>Select a service</option>
+                    {services.map((service) => (
+                      <option key={service.id} value={service.id}>{service.title}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className={labelClass}>Service Delivery Method</label>
+                  <select name="serviceDeliveryMethod" value={formData.serviceDeliveryMethod} onChange={handleChange} className={inputClass} required>
+                    <option value="">Select a delivery method</option>
+                    <option value="remote-service">Remote Service</option>
+                    <option value="onsite-service">Onsite Service</option>
+                  </select>
+                </div>
+                <div>
+                  <label className={labelClass}>Explanation of Your Data Recovery Needs</label>
+                  <textarea name="problem" value={formData.problem} onChange={handleChange} rows={4} className={inputClass} required />
+                </div>
+                <button type="submit" className="w-full bg-cyan-500 text-gray-900 font-bold px-6 py-3 rounded-lg hover:bg-cyan-400 transition-colors">
+                  Submit Request
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Info: Serving + Steps */}
+      <section className="bg-gray-50 py-12">
+        <div className="container mx-auto px-6 max-w-6xl">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+            <div className="bg-white rounded-xl p-8 border border-gray-100 shadow-sm">
+              <div className="flex items-center gap-3 mb-4">
+                <FaMapMarkerAlt className="text-cyan-500 text-xl flex-shrink-0" />
+                <h3 className="text-xl font-bold text-gray-900">Serving Clients Nationwide</h3>
+              </div>
+              <p className="text-gray-600">
+                For more than two decades, 24/7 Tech On Call has resolved over 10,000 IT issues. Proudly serving homes and businesses across the entire United States, our data recovery experts deliver personalized and efficient solutions to get your critical data back.
+              </p>
+            </div>
+
+            <div className="bg-white rounded-xl p-8 border border-gray-100 shadow-sm">
+              <div className="flex items-center gap-3 mb-4">
+                <FaClipboardList className="text-cyan-500 text-xl flex-shrink-0" />
+                <h3 className="text-xl font-bold text-gray-900">Steps to Recover Your Data</h3>
+              </div>
+              <ol className="space-y-3 text-gray-600 text-sm">
+                {['Contact us via phone or our contact form.', 'Describe your data recovery needs.', 'Receive a quote for the services.', 'Schedule a service appointment.', 'Our technicians implement the necessary recovery solutions.', 'Receive ongoing support and maintenance as needed.'].map((step, i) => (
+                  <li key={i} className="flex gap-3 items-start">
+                    <span className="flex-shrink-0 w-6 h-6 bg-cyan-100 text-cyan-700 rounded-full text-xs font-bold flex items-center justify-center mt-0.5">{i + 1}</span>
+                    <span>{step}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="bg-gray-900 border-t-4 border-cyan-500 py-14 text-white text-center">
+        <div className="container mx-auto px-6 max-w-2xl">
+          <FaHeadset className="mx-auto text-4xl text-cyan-400 mb-4" />
+          <h2 className="text-3xl font-bold mb-3">Lost Critical Business Data?</h2>
+          <p className="text-gray-400 mb-6">
+            Our data recovery specialists nationwide are ready to retrieve your lost or corrupted data quickly and securely.
+          </p>
+          <Link to="/contact" state={{ prefill: { source: 'business-contact' } }} className="inline-block bg-cyan-500 text-gray-900 font-bold px-8 py-3 rounded-full hover:bg-cyan-400 transition-colors shadow-lg">
+            Contact Us Today
+          </Link>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default BusinessDataRecovery;

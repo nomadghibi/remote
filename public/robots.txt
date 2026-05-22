@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /private/
+Disallow: /checkout
+Disallow: /paynow
+Disallow: /confirmation
+Disallow: /buy-confirmation
+Allow: /
+
+Sitemap: https://24x7techoncall.com/sitemap.xml
