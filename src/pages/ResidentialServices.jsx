@@ -255,9 +255,7 @@ function ResidentialServices() {
   const navigate = useNavigate();
 
   const canonicalUrl = 'https://24x7techoncall.com/residential-services';
-  const pageImage = heroImage?.startsWith('http')
-    ? heroImage
-    : `https://24x7techoncall.com${heroImage || ''}`;
+  const pageImage = 'https://24x7techoncall.com/hero-home-1024.jpg';
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',

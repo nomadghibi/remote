@@ -124,7 +124,7 @@ const buildSupportMessage = (formData) => [
 
 function RustDeskSupport() {
   const canonicalUrl = 'https://24x7techoncall.com/rustdesk-support';
-  const pageImage = heroImage?.startsWith('http') ? heroImage : `https://24x7techoncall.com${heroImage || ''}`;
+  const pageImage = 'https://24x7techoncall.com/hero-home-1024.jpg';
   const smsBody = useMemo(() => encodeURIComponent(templateMessage), []);
   const clientPlatform = useMemo(detectClientPlatform, []);
   const platformLabel = useMemo(() => getPlatformLabel(clientPlatform.platform), [clientPlatform.platform]);

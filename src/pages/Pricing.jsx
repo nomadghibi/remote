@@ -87,9 +87,7 @@ const faqs = [
 function Pricing() {
   const navigate = useNavigate();
   const canonicalUrl = 'https://24x7techoncall.com/pricing';
-  const pageImage = heroImage?.startsWith('http')
-    ? heroImage
-    : `https://24x7techoncall.com${heroImage || ''}`;
+  const pageImage = 'https://24x7techoncall.com/hero-home-1024.jpg';
 
   const handleOrderClick = (plan) => {
     const priceMap = { remote: 99, annual: 299 };

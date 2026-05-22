@@ -330,6 +330,10 @@ const App = () => {
               <Route path="/about-us" element={<AboutUs />} />
               <Route path="/service-areas" element={<ServiceAreas />} />
               <Route path="/tech-support/:citySlug" element={<LocationPage />} />
+              <Route path="/hardware-repairs" element={<Navigate to="/residential-support/computer-repair" replace />} />
+              <Route path="/remote-tech-support" element={<Navigate to="/residential-support/remote-support" replace />} />
+              <Route path="/technical-support-maintenance" element={<Navigate to="/business-solutions/technical-support-maintenance" replace />} />
+              <Route path="/website-design" element={<Navigate to="/business-solutions/website-development" replace />} />
               <Route path="/buy-computers" element={<Navigate to="/services" replace />} />
               <Route path="/confirmation" element={<ConfirmationPage />} />
               <Route path="/buy-confirmation" element={<BuyConfirmationPage />} />
@@ -340,7 +344,7 @@ const App = () => {
       </main>
       <Footer />
     </div>
-    </HelmetProvider> // Wrap the entire app in HelmetProvider
+    </HelmetProvider>
    
   );
 };

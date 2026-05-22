@@ -91,20 +91,6 @@ const staticRoutes = [
   '/book-service',
   '/subscribe',
   '/service-areas',
-  '/newsletters/best-computer-tech-monthly-newsletter-2026-01-agents-become-co-workers.pdf',
-  '/newsletters/best-computer-tech-monthly-newsletter-2026-02-identity-first-security-beating-ai-powered-phishing-and-fraud.pdf',
-  '/newsletters/best-computer-tech-monthly-newsletter-2025-01-agents-become-co-workers.pdf',
-  '/newsletters/best-computer-tech-monthly-newsletter-2025-02-ai-security-arms-race.pdf',
-  '/newsletters/best-computer-tech-monthly-newsletter-2025-03-ai-pcs-and-local-inference.pdf',
-  '/newsletters/best-computer-tech-monthly-newsletter-2025-04-robots-in-real-businesses.pdf',
-  '/newsletters/best-computer-tech-monthly-newsletter-2025-05-customer-support-gets-rebuilt.pdf',
-  '/newsletters/best-computer-tech-monthly-newsletter-2025-06-privacy-and-compliance-catch-up.pdf',
-  '/newsletters/best-computer-tech-monthly-newsletter-2025-07-post-quantum-migration-planning.pdf',
-  '/newsletters/best-computer-tech-monthly-newsletter-2025-08-green-compute-and-efficiency.pdf',
-  '/newsletters/best-computer-tech-monthly-newsletter-2025-09-the-interface-evolves.pdf',
-  '/newsletters/best-computer-tech-monthly-newsletter-2025-10-fraud-trust-and-verification.pdf',
-  '/newsletters/best-computer-tech-monthly-newsletter-2025-11-automation-for-small-business.pdf',
-  '/newsletters/best-computer-tech-monthly-newsletter-2025-12-from-tools-to-systems.pdf',
   '/pricing',
   '/about-us',
 ];
@@ -112,11 +98,29 @@ const staticRoutes = [
 const locationRoutes = locations.map((location) => `/tech-support/${location.slug}`);
 const allRoutes = [...new Set([...staticRoutes, ...locationRoutes])];
 
-// Transform staticRoutes into the format expected by SitemapStream
+const getPriority = (route) => {
+  if (route === '/') return 1.0;
+  if (
+    route === '/residential-services'
+    || route === '/business-services'
+    || route === '/pricing'
+    || route === '/rustdesk-support'
+    || route === '/contact'
+    || route === '/service-areas'
+  ) {
+    return 0.9;
+  }
+  if (route.startsWith('/tech-support/')) return 0.9;
+  if (route === '/blog' || route.startsWith('/blog/')) return 0.7;
+  if (route.startsWith('/how-to/')) return 0.7;
+  return 0.8;
+};
+
+// Transform static routes into sitemap entries
 const links = allRoutes.map((route) => ({
   url: route,
-  changefreq: 'weekly', // Set a default changefreq
-  priority: 0.8, // Set a default priority
+  changefreq: route === '/' ? 'daily' : 'weekly',
+  priority: getPriority(route),
 }));
 
 const sitemapPath = resolve(__dirname, 'public', 'sitemap.xml');

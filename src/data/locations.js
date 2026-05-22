@@ -2,6 +2,11 @@
 // slug format: city-state (lowercase, hyphenated)
 
 export const locations = [
+  // Florida priority cities
+  { slug: 'palm-bay-fl',      city: 'Palm Bay',       state: 'Florida',         stateAbbr: 'FL', region: 'Southeast' },
+  { slug: 'melbourne-fl',     city: 'Melbourne',      state: 'Florida',         stateAbbr: 'FL', region: 'Southeast' },
+  { slug: 'west-melbourne-fl',city: 'West Melbourne', state: 'Florida',         stateAbbr: 'FL', region: 'Southeast' },
+
   // Northeast
   { slug: 'new-york-ny',      city: 'New York',       state: 'New York',        stateAbbr: 'NY', region: 'Northeast' },
   { slug: 'boston-ma',        city: 'Boston',         state: 'Massachusetts',   stateAbbr: 'MA', region: 'Northeast' },
