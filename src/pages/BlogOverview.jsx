@@ -35,6 +35,22 @@ const categoryColors = {
 // ── Blog posts ─────────────────────────────────────────────────────────────
 const blogPosts = [
   {
+    title:    'Computer Repair Palm Bay FL: Homeowner Guide to Fast Remote-First Help',
+    summary:  'A practical Palm Bay guide for slow PCs, printer issues, malware cleanup, and when to use remote support vs in-home service.',
+    link:     '/blog/computer-repair-palm-bay-fl-guide',
+    date:     'May 22, 2026',
+    image:    businessImage,
+    category: 'Local Guide',
+  },
+  {
+    title:    'Computer Repair Melbourne FL: Local Checklist for Reliable Residential Support',
+    summary:  'How Melbourne residents can solve common computer problems quickly with secure remote support and clear service expectations.',
+    link:     '/blog/computer-repair-melbourne-fl-guide',
+    date:     'May 22, 2026',
+    image:    heroImage,
+    category: 'Local Guide',
+  },
+  {
     title:    'What Is Remote Computer Support? How It Works and Why Americans Are Choosing It',
     summary:  'Everything you need to know about remote computer support — how it works, what it fixes, and why it is the fastest way to get tech help in the USA.',
     link:     '/blog/what-is-remote-computer-support',

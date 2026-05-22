@@ -66,6 +66,8 @@ const staticRoutes = [
   '/how-to/be-safe-online',
   '/how-to/set-up-email',
   '/blog',
+  '/blog/computer-repair-palm-bay-fl-guide',
+  '/blog/computer-repair-melbourne-fl-guide',
   '/blog/what-is-remote-computer-support',
   '/blog/remote-it-support-vs-on-site-it',
   '/blog/5-signs-you-need-remote-tech-support',
