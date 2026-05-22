@@ -29,17 +29,98 @@ const whyUs = [
   { icon: FaHandshake,    title: 'Clear, Honest Pricing',  text: 'Straightforward support with fair, upfront pricing.',           color: 'border-yellow-400', iconBg: 'bg-yellow-50', iconText: 'text-yellow-500' },
 ];
 
+const cityPageOverrides = {
+  'palm-bay-fl': {
+    pageTitle: 'Computer Repair Palm Bay FL | Remote Tech Support | 24/7 Tech On Call',
+    description:
+      'Computer repair in Palm Bay, FL with secure remote support for slow PCs, malware, Wi-Fi, printer, and email issues. Fast response and clear pricing.',
+    intro:
+      'Palm Bay customers call us for fast remote computer repair when devices are slow, unstable, or hit by malware. We resolve most issues same day without an in-home visit.',
+    localProblems: [
+      'Slow startup and freezing on older Windows laptops',
+      'Printer offline errors for home and home-office setups',
+      'Wi-Fi dropouts during video calls and remote work',
+      'Email send/receive failures after password updates',
+      'Pop-ups, browser redirects, and suspicious software',
+      'New PC setup, file transfer, and app reinstallation',
+    ],
+    proof: [
+      'Primary support focus for Palm Bay homes and micro-businesses',
+      'Most common software and connectivity issues resolved same day',
+      'Remote-first workflow with user-approved secure access',
+    ],
+  },
+  'melbourne-fl': {
+    pageTitle: 'Computer Repair Melbourne FL | Remote Tech Support | 24/7 Tech On Call',
+    description:
+      'Computer repair in Melbourne, FL with secure remote support for computer performance, malware cleanup, Wi-Fi troubleshooting, and printer/email setup.',
+    intro:
+      'Melbourne clients use our remote support for quick repairs, cybersecurity cleanup, and day-to-day computer reliability. We fix issues while you watch, no travel required.',
+    localProblems: [
+      'System lag, high CPU usage, and random app crashes',
+      'Virus and malware cleanup for Windows and Mac devices',
+      'Home network troubleshooting for unstable Wi-Fi coverage',
+      'Printer setup, driver errors, and scan-to-email problems',
+      'Microsoft 365 sign-in and mailbox sync issues',
+      'Data backup configuration and transfer to new devices',
+    ],
+    proof: [
+      'Dedicated remote support for Melbourne households and solo professionals',
+      'Clear pricing before work begins with no hidden charges',
+      'Follow-up support to confirm stability after the fix',
+    ],
+  },
+};
+
 function LocationPage() {
   const { citySlug } = useParams();
   const loc = locationBySlug[citySlug];
 
   if (!loc) return <Navigate to="/service-areas" replace />;
 
+  const cityOverride = cityPageOverrides[citySlug];
   const { city, state, stateAbbr } = loc;
   const displayName = `${city}, ${stateAbbr}`;
-  const fullTitle = `Remote Tech Support in ${displayName} | 24/7 Tech On Call`;
-  const metaDesc = `Professional remote computer and IT support for homes and businesses in ${city}, ${state}. Virus removal, repairs, Wi-Fi help, and more — no visit required. Call (321) 953-5199.`;
+  const fullTitle = cityOverride?.pageTitle || `Remote Tech Support in ${displayName} | 24/7 Tech On Call`;
+  const metaDesc =
+    cityOverride?.description
+    || `Professional remote computer and IT support for homes and businesses in ${city}, ${state}. Virus removal, repairs, Wi-Fi help, and more — no visit required. Call (321) 953-5199.`;
   const canonicalUrl = `${BASE_URL}/tech-support/${citySlug}`;
+  const pageImage = 'https://24x7techoncall.com/hero-home-1024.jpg';
+  const localProblems =
+    cityOverride?.localProblems
+    || [
+      `Slow computer performance and startup problems in ${city}`,
+      `Wi-Fi and internet instability for homes in ${city}`,
+      `Printer, email, and software setup issues`,
+      `Virus and malware cleanup with secure remote sessions`,
+      `New computer setup, app install, and file transfer`,
+    ];
+  const localProof =
+    cityOverride?.proof
+    || [
+      `Remote support coverage for ${city} and nearby communities`,
+      'Fast turnaround for common software and network issues',
+      'Secure, user-approved remote access with transparent pricing',
+    ];
+  const faqItems = [
+    {
+      q: `Do you offer computer repair in ${city}, ${stateAbbr} without an in-home visit?`,
+      a: `Yes. We provide remote computer repair in ${city} and resolve most software, malware, Wi-Fi, and setup issues online.`,
+    },
+    {
+      q: `How quickly can I get support in ${city}?`,
+      a: `Most customers in ${city} receive same-day help during our service window, Monday-Friday from 10:00 AM to 5:00 PM.`,
+    },
+    {
+      q: `Can you fix printer and email issues for home users in ${city}?`,
+      a: `Yes. We troubleshoot printer setup, offline errors, email sync, and login problems for residential and small-business users.`,
+    },
+    {
+      q: `Is remote support secure?`,
+      a: 'Yes. You approve the session before connection, can watch all actions in real time, and can end access at any moment.',
+    },
+  ];
 
   const schema = {
     '@context': 'https://schema.org',
@@ -55,6 +136,15 @@ function LocationPage() {
       { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '10:00', closes: '17:00' },
     ],
   };
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: { '@type': 'Answer', text: faq.a },
+    })),
+  };
 
   return (
     <div>
@@ -68,8 +158,14 @@ function LocationPage() {
         <meta property="og:title" content={fullTitle} />
         <meta property="og:description" content={metaDesc} />
         <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:image" content={pageImage} />
         <meta property="og:locale" content="en_US" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={fullTitle} />
+        <meta name="twitter:description" content={metaDesc} />
+        <meta name="twitter:image" content={pageImage} />
         <script type="application/ld+json">{JSON.stringify(schema)}</script>
+        <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
       </Helmet>
 
       {/* ── Hero ── */}
@@ -82,7 +178,7 @@ function LocationPage() {
             Expert Tech Support in <span className="text-cyan-400">{city}</span>, {stateAbbr}
           </h1>
           <p className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
-            Fast, reliable remote computer and IT support for homes and businesses in {city}, {state}. No visit needed — we fix it remotely, same day.
+            {cityOverride?.intro || `Fast, reliable remote computer and IT support for homes and businesses in ${city}, ${state}. No visit needed — we fix it remotely, same day.`}
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a href={PHONE_HREF}
@@ -168,6 +264,86 @@ function LocationPage() {
           <Link to="/service-areas" className="inline-flex items-center gap-2 text-sm font-semibold text-cyan-600 hover:text-cyan-700 transition-colors">
             View all service areas <FaArrowRight className="w-3 h-3" />
           </Link>
+        </div>
+      </section>
+
+      {/* ── Common Local Problems ── */}
+      <section className="py-16 bg-white border-t border-gray-200">
+        <div className="container mx-auto px-6 max-w-4xl">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 text-center mb-8">
+            Common Computer Problems We Fix in {city}
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {localProblems.map((problem) => (
+              <article key={problem} className="rounded-xl border border-gray-200 bg-gray-50 p-5">
+                <h3 className="text-base font-bold text-gray-900 mb-1">{problem}</h3>
+                <p className="text-sm text-gray-600">
+                  Remote diagnosis and repair with clear next steps and same-session fixes when possible.
+                </p>
+              </article>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <Link
+              to="/pricing"
+              className="inline-flex items-center gap-2 px-6 py-3 font-semibold text-white bg-gray-900 rounded-full hover:bg-gray-800 transition-colors"
+            >
+              View Pricing <FaArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Local Proof ── */}
+      <section className="py-16 bg-gray-50 border-t border-gray-200">
+        <div className="container mx-auto px-6 max-w-4xl">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 text-center mb-8">
+            Why Customers in {city} Keep Calling Us
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {localProof.map((point) => (
+              <article key={point} className="rounded-xl border border-gray-200 bg-white p-5 text-center">
+                <p className="text-sm text-gray-700">{point}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── FAQ ── */}
+      <section className="py-16 bg-white border-t border-gray-200">
+        <div className="container mx-auto px-6 max-w-4xl">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 text-center mb-8">
+            {city} Computer Repair FAQ
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {faqItems.map((faq) => (
+              <article key={faq.q} className="rounded-xl border border-gray-200 bg-gray-50 p-5">
+                <h3 className="text-base font-bold text-gray-900 mb-2">{faq.q}</h3>
+                <p className="text-sm text-gray-600">{faq.a}</p>
+              </article>
+            ))}
+          </div>
+          <div className="text-center mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Link
+              to="/residential-services"
+              className="inline-flex items-center gap-2 px-6 py-3 font-semibold text-gray-900 bg-cyan-400 rounded-full hover:bg-cyan-300 transition-colors"
+            >
+              Residential Services
+            </Link>
+            <Link
+              to="/rustdesk-support"
+              className="inline-flex items-center gap-2 px-6 py-3 font-semibold text-white bg-gray-900 rounded-full hover:bg-gray-800 transition-colors"
+            >
+              Start Remote Support
+            </Link>
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2 px-6 py-3 font-semibold text-gray-700 border border-gray-300 rounded-full hover:border-cyan-400 hover:text-cyan-700 transition-colors"
+            >
+              Contact Us
+            </Link>
+          </div>
         </div>
       </section>
 
