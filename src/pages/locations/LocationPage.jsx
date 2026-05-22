@@ -1,4 +1,4 @@
-import { useParams, Link, Navigate } from 'react-router-dom';
+import { useParams, Link, Navigate, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import {
   FaLaptopHouse, FaBug, FaWifi, FaChalkboardTeacher, FaDatabase,
@@ -74,18 +74,24 @@ const cityPageOverrides = {
 
 function LocationPage() {
   const { citySlug } = useParams();
+  const { pathname } = useLocation();
   const loc = locationBySlug[citySlug];
 
   if (!loc) return <Navigate to="/service-areas" replace />;
 
   const cityOverride = cityPageOverrides[citySlug];
+  const isComputerRepairRoute = pathname.endsWith('/computer-repair');
   const { city, state, stateAbbr } = loc;
   const displayName = `${city}, ${stateAbbr}`;
-  const fullTitle = cityOverride?.pageTitle || `Remote Tech Support in ${displayName} | 24/7 Tech On Call`;
+  const fullTitle = isComputerRepairRoute
+    ? `Computer Repair ${city} ${stateAbbr} | Residential Remote Support | 24/7 Tech On Call`
+    : (cityOverride?.pageTitle || `Remote Tech Support in ${displayName} | 24/7 Tech On Call`);
   const metaDesc =
-    cityOverride?.description
+    (isComputerRepairRoute
+      ? `Computer repair in ${city}, ${stateAbbr} for residential customers. Fast remote support for slow PCs, malware, Wi-Fi, printer, and email issues with secure guided sessions.`
+      : cityOverride?.description)
     || `Professional remote computer and IT support for homes and businesses in ${city}, ${state}. Virus removal, repairs, Wi-Fi help, and more — no visit required. Call (321) 953-5199.`;
-  const canonicalUrl = `${BASE_URL}/tech-support/${citySlug}`;
+  const canonicalUrl = `${BASE_URL}${pathname}`;
   const pageImage = 'https://24x7techoncall.com/hero-home-1024.jpg';
   const localProblems =
     cityOverride?.localProblems
@@ -131,7 +137,9 @@ function LocationPage() {
     email: '365techoncall@gmail.com',
     priceRange: '$$',
     areaServed: { '@type': 'City', name: city, containedInPlace: { '@type': 'State', name: state } },
-    serviceType: ['Remote Computer Support', 'Virus Removal', 'Software Troubleshooting', 'Data Recovery', 'Wi-Fi Help', 'Microsoft 365 Support'],
+    serviceType: isComputerRepairRoute
+      ? ['Computer Repair', 'Residential Computer Support', 'Remote Computer Troubleshooting', 'Virus Removal', 'Wi-Fi Help']
+      : ['Remote Computer Support', 'Virus Removal', 'Software Troubleshooting', 'Data Recovery', 'Wi-Fi Help', 'Microsoft 365 Support'],
     openingHoursSpecification: [
       { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '10:00', closes: '17:00' },
     ],
@@ -172,10 +180,14 @@ function LocationPage() {
       <section className="relative bg-gray-900 py-20 px-6 text-white text-center border-b-4 border-cyan-500">
         <div className="max-w-3xl mx-auto">
           <span className="inline-block px-4 py-1.5 mb-5 text-xs font-bold uppercase tracking-widest text-cyan-400 border border-cyan-400/40 rounded-full bg-cyan-400/10">
-            Remote Tech Support — {displayName}
+            {isComputerRepairRoute ? `Computer Repair — ${displayName}` : `Remote Tech Support — ${displayName}`}
           </span>
           <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight mb-5">
-            Expert Tech Support in <span className="text-cyan-400">{city}</span>, {stateAbbr}
+            {isComputerRepairRoute ? (
+              <>Computer Repair in <span className="text-cyan-400">{city}</span>, {stateAbbr}</>
+            ) : (
+              <>Expert Tech Support in <span className="text-cyan-400">{city}</span>, {stateAbbr}</>
+            )}
           </h1>
           <p className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
             {cityOverride?.intro || `Fast, reliable remote computer and IT support for homes and businesses in ${city}, ${state}. No visit needed — we fix it remotely, same day.`}

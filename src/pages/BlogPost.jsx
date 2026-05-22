@@ -71,7 +71,12 @@ const blogPostsData = {
     `,
     heroImage: pcPerformanceImage,
     description: 'Palm Bay FL residential computer repair guide with remote-first troubleshooting, same-day support paths, and homeowner FAQs.',
-    keywords: 'computer repair Palm Bay FL, residential tech support Palm Bay, remote computer help Palm Bay, printer support Palm Bay, malware removal Palm Bay'
+    keywords: 'computer repair Palm Bay FL, residential tech support Palm Bay, remote computer help Palm Bay, printer support Palm Bay, malware removal Palm Bay',
+    faq: [
+      { q: 'Do you offer same-day computer repair in Palm Bay?', a: 'Yes, most remote-fixable residential issues are handled same day during support hours.' },
+      { q: 'Can I get help for printer and email issues remotely?', a: 'Yes, printer mapping, scan setup, and email sync/login issues are commonly fixed in remote sessions.' },
+      { q: 'Where should I start for Palm Bay support?', a: 'Start with /tech-support/palm-bay-fl/computer-repair or launch a session from /rustdesk-support.' },
+    ]
   },
   'computer-repair-melbourne-fl-guide': {
     title: 'Computer Repair Melbourne FL: Local Checklist for Reliable Residential Support',
@@ -108,7 +113,12 @@ const blogPostsData = {
     `,
     heroImage: heroImage,
     description: 'Melbourne FL residential computer repair checklist with remote-first support flow, fast triage, and homeowner FAQs.',
-    keywords: 'computer repair Melbourne FL, residential computer support Melbourne, remote tech support Melbourne, home wifi help Melbourne, laptop repair Melbourne FL'
+    keywords: 'computer repair Melbourne FL, residential computer support Melbourne, remote tech support Melbourne, home wifi help Melbourne, laptop repair Melbourne FL',
+    faq: [
+      { q: 'Can Melbourne residents get same-day remote support?', a: 'Yes, many software, malware, and setup issues are resolved the same day.' },
+      { q: 'Do you support non-technical residential users?', a: 'Yes, sessions are guided in simple steps and paced for homeowners and seniors.' },
+      { q: 'Where should I start for Melbourne computer repair?', a: 'Use /tech-support/melbourne-fl/computer-repair or start at /rustdesk-support.' },
+    ]
   },
   'computer-repairs-near-you-palm-bay-melbourne-guide': {
     title: 'Computer Repairs Near You: Local Guide for Nationwide',
@@ -954,6 +964,17 @@ function BlogPost() {
         ]
       }
     : null;
+  const faqSchema = post?.faq?.length
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: post.faq.map((item) => ({
+          '@type': 'Question',
+          name: item.q,
+          acceptedAnswer: { '@type': 'Answer', text: item.a },
+        })),
+      }
+    : null;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -994,6 +1015,7 @@ function BlogPost() {
         <meta name="twitter:image" content={imageUrl} />
         <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+        {faqSchema && <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>}
       </Helmet>
 
       {/* Hero */}
@@ -1024,6 +1046,25 @@ function BlogPost() {
         <div className="prose prose-gray max-w-none text-gray-700 leading-relaxed">
           <div dangerouslySetInnerHTML={{ __html: post.content.replace(/\n/g, '<br />') }} />
         </div>
+        {(slug === 'computer-repair-palm-bay-fl-guide' || slug === 'computer-repair-melbourne-fl-guide') && (
+          <div className="mt-8 rounded-xl border border-gray-200 bg-gray-50 p-6">
+            <h3 className="text-lg font-bold text-gray-900 mb-3">Need Residential Help Right Now?</h3>
+            <p className="text-gray-700 mb-4">
+              Start with your city page, then launch secure remote support.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link to={slug === 'computer-repair-palm-bay-fl-guide' ? '/tech-support/palm-bay-fl/computer-repair' : '/tech-support/melbourne-fl/computer-repair'} className="px-5 py-2.5 rounded-full bg-cyan-500 text-gray-900 font-semibold hover:bg-cyan-400 transition-colors">
+                City Repair Page
+              </Link>
+              <Link to="/pricing" className="px-5 py-2.5 rounded-full bg-gray-900 text-white font-semibold hover:bg-gray-800 transition-colors">
+                View Pricing
+              </Link>
+              <Link to="/contact" className="px-5 py-2.5 rounded-full border border-gray-300 text-gray-700 font-semibold hover:border-cyan-400 hover:text-cyan-700 transition-colors">
+                Contact Support
+              </Link>
+            </div>
+          </div>
+        )}
         <div className="mt-10 p-6 rounded-xl bg-cyan-50 border border-cyan-100">
           <h3 className="text-lg font-bold text-gray-900 mb-2">Our Other Websites</h3>
           <p className="text-gray-700">

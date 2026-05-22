@@ -98,7 +98,11 @@ const staticRoutes = [
 ];
 
 const locationRoutes = locations.map((location) => `/tech-support/${location.slug}`);
-const allRoutes = [...new Set([...staticRoutes, ...locationRoutes])];
+const locationServiceRoutes = [
+  '/tech-support/palm-bay-fl/computer-repair',
+  '/tech-support/melbourne-fl/computer-repair',
+];
+const allRoutes = [...new Set([...staticRoutes, ...locationRoutes, ...locationServiceRoutes])];
 
 const getPriority = (route) => {
   if (route === '/') return 1.0;

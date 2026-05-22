@@ -330,6 +330,7 @@ const App = () => {
               <Route path="/about-us" element={<AboutUs />} />
               <Route path="/service-areas" element={<ServiceAreas />} />
               <Route path="/tech-support/:citySlug" element={<LocationPage />} />
+              <Route path="/tech-support/:citySlug/computer-repair" element={<LocationPage />} />
               <Route path="/hardware-repairs" element={<Navigate to="/residential-support/computer-repair" replace />} />
               <Route path="/remote-tech-support" element={<Navigate to="/residential-support/remote-support" replace />} />
               <Route path="/technical-support-maintenance" element={<Navigate to="/business-solutions/technical-support-maintenance" replace />} />
